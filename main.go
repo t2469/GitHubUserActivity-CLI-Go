@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// Event GitHub APIから取得するイベント情報のうち、必要な情報を定義
 type Event struct {
 	Type string `json:"type"`
 	Repo struct {
@@ -18,6 +19,7 @@ type Event struct {
 	CreatedAt string `json:"created_at"`
 }
 
+// fetchEvents 指定したユーザーのイベント情報を取得して、Eventのスライスとして返す
 func fetchEvents(username string) ([]Event, error) {
 	url := fmt.Sprintf("https://api.github.com/users/%s/events", username)
 	req, err := http.NewRequest("GET", url, nil)
@@ -48,6 +50,7 @@ func fetchEvents(username string) ([]Event, error) {
 	return events, nil
 }
 
+// printEvents 取得したイベント情報を、JSTに変換して出力
 func printEvents(events []Event) {
 	jst, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
